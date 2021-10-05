@@ -42,7 +42,19 @@ if (tbody) {
         td4.innerText = data.salary
         tr.appendChild(td4)
         td5 = document.createElement('td')
-        td5.innerHTML = `<button class="btn btn-warning">Delete</button>`
+        deleteButton = document.createElement('button')
+        deleteButton.innerText = "delete"
+        deleteButton.classList = "btn btn-warning"
+
+        td5.appendChild(deleteButton)
         tr.appendChild(td5)
+        deleteButton.addEventListener('click', function(e) {
+
+            TotalData.splice(index, 1)
+            setData(TotalData)
+            window.location.href = "allData.html"
+        })
+
+
     })
 }
