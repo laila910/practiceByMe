@@ -1,7 +1,7 @@
-## training on NTI courses
+# training on NTI courses
 
-# Web Design
+## Web Design
 
-# Web development using PHP,mysql and laravel
+## Web development using PHP,mysql and laravel
 
-# web development using NODEJS and angular
+## web development using NODEJS and angular
