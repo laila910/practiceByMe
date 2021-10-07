@@ -1,4 +1,4 @@
-# training on NTI courses
+# training on :
 
 ## Web Design
 
