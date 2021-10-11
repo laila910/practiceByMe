@@ -1,3 +1,4 @@
+const { count } = require('console')
 const fs = require('fs')
 
 const readDataFromJsonFile = () => {
@@ -62,23 +63,38 @@ const getStudent = (studentId) => {
     console.table(student)
 
 }
-const getStudentsTotalDegrees = () => {
+const getStudentTotalDegrees = (StudentId) => {
     students = readDataFromJsonFile()
-    students.forEach((s, x) => {
-        // console.log(x)
-        Total = s.sub.filter((r, i) => {
+        // students.forEach((s, x) => {
 
-            console.log(`student ${x+1} has degrees = ${r.subGrade}`)
-        })
+    //     Total = s.sub.filter((r, i) => {
+
+    //         console.log(`student ${x+1} has degrees = ${r.subGrade}`)
+    //     })
+    // })
+    student = students.find((s, x) => {
+        total = 0
+        if (StudentId == s.id) {
+            for (i = 0; i < s.sub.length; i++) {
+                // console.log(s.sub[i].subGrade)
+                total = total + s.sub[i].subGrade
+
+
+            }
+            console.log(`total degrees of student ${StudentId} equal to ${total}`)
+        }
+
     })
 
 
+
 }
+
 
 module.exports = {
     addStudent,
     addSubject,
     showAllStudents,
     getStudent,
-    getStudentsTotalDegrees
+    getStudentTotalDegrees
 }

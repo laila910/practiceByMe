@@ -6,8 +6,9 @@ const student = require('./modules/student')
     // student.getStudent(773260988030.4885)
     // student.getStudentsTotalDegrees()
     // student.addSubject(224100375848.4284, { subName: "biology", subGrade: 80 })
+student.getStudentTotalDegrees(773260988030.4885)
 yargs.command({
-    command: "addStudent",
+    command: "addStu",
     describe: "add student",
     builder: {
         name: {
@@ -20,6 +21,7 @@ yargs.command({
         }
     },
     handler: function(argv) {
+        // console.log('hello from there')
         Stu = { name: argv.name, class: argv.class }
         student.addStudent(Stu)
 
@@ -47,7 +49,7 @@ yargs.command({
     handler: function(argv) {
 
         suj = { subName: argv.Name, subGrade: argv.Grade }
-            // console.log(argv)
+
         student.addSubject(argv.Id, suj)
     }
 })
@@ -74,7 +76,14 @@ yargs.command({
 yargs.command({
     command: "getTotalDegrees",
     describe: "get TOTAL DEGREES of students",
-    handler: function() {
-        student.getStudentsTotalDegrees()
+    builder: {
+        ID: {
+            type: Number,
+            demandOption: true
+        }
+    },
+    handler: function(argv) {
+        student.getStudentTotalDegrees(argv.ID)
     }
 })
+yargs.argv
