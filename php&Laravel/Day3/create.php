@@ -1,4 +1,7 @@
 <?PHP
+
+require 'db.connection.php';
+
 function cleanInputs($input)
 {
     $input = trim($input);
@@ -13,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nameMe = cleanInputs($_POST['name']);
     if (empty($nameMe)) {
         $errormessages['name'] = 'your name is empty ';
-    } elseif (strlen($nameMe) < 6) {
-        $errormessages['name'] = 'your name must be more than 6 characters';
+    } elseif (strlen($nameMe) < 3) {
+        $errormessages['name'] = 'your name must be more than 3 characters';
     } elseif (!filter_var($nameMe, FILTER_SANITIZE_STRING)) {
         $errormessages['name'] = 'your name is not string';
     }
@@ -60,7 +63,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     // echo '<p width="50%" height="50%">your name is ' . $nameMe . '<br>' . 'your email is ' . $emaily . '<br>' . 'your password is ' . $pass . '</p>';
     if (!$errormessages) {
-        echo 'data entered';
+        // echo 'data entered';
+        $sql = "INSERT INTO `users`( `name`, `email`, `password`, `image`) VALUES ('$nameMe','$emaily','$pass','$finalName')";
+
+        $op = mysqli_query($conn, $sql);
+        // mysqli_error($conn);
+        if (!$op) {
+            echo 'failed to insert data ,please try again';
+        } else {
+            header('Location: read.php');
+        }
     } else {
         foreach ($errormessages as $key => $value) {
             echo $key . ':' . $value . '<br>';
