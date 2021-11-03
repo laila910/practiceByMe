@@ -2,25 +2,39 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 
 const postSchema = new mongoose.Schema({
-    content: {
-        type: String
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
-    type: {
+
+    content: {
         type: String,
-        enum: ['image', 'txt', 'video']
+        required: function() { return postType == "txt" }
+    },
+    postType: {
+        type: String,
+        enum: ['img', 'text', 'video'],
+        trim: true,
+        required: true
 
     },
-    user: {
+    postFile: {
+        type: String,
+        required: function() { return postType != "txt" }
 
     },
     audience: {
         type: String,
-        enum: ['public', 'onlyMe', 'custom']
+        enum: ['public', 'onlyMe', 'custom'],
+        default: 'public'
 
     },
     comments: [{
         user: {
-
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
         },
         details: {
             type: String
@@ -29,6 +43,9 @@ const postSchema = new mongoose.Schema({
     }],
     likes: [{
         user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
 
         }
     }]

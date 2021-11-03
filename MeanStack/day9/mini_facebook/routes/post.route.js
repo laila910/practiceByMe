@@ -1,9 +1,11 @@
 const router = require('express').Router()
-const Post = require('../models/post.model')
+
 const postController = require('../controller/post.controller')
+const auth = require('../middleware/auth')
+
+router.post('/addPost', auth, postController.addPost)
+
+router.get('/myPosts', auth, postController.myPosts)
 
 
-router.get('', (req, res) => {
-    res.status(200).send('test Post')
-})
 module.exports = router

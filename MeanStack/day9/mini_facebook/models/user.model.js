@@ -164,8 +164,23 @@ const userSchema = new mongoose.Schema({
         message: {
             type: String
         }
+    }],
+    tokens: [{
+        token: {
+            type: String,
+
+
+
+            required: true
+        }
     }]
 }, { timestamps: true })
+
+userSchema.virtual('myPosts', {
+    ref: "Post",
+    localField: "_id",
+    foreignField: "userId"
+})
 
 userSchema.methods.toJSON = function() {
     const user = this.toObject()
@@ -186,6 +201,15 @@ userSchema.statics.findByCredentials = async(email, password) => {
     const isvalid = await bcrypt.compare(password, user.password)
     if (!isvalid) throw new Error('invalid password')
     return user
+}
+jwt = require('jsonwebtoken')
+userSchema.methods.generateToken = async function() {
+    const user = this
+    const token = jwt.sign({ _id: user._id }, process.env.JWTKEY)
+    user.tokens = user.tokens.concat({ token })
+    await user.save()
+    return token
+
 }
 const User = mongoose.model('User', userSchema)
 
